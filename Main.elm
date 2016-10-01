@@ -11,7 +11,6 @@ import Time exposing (..)
 import Shared exposing (..)
 
 import GeoJson exposing (..)
---import GeoJsonDecoder exposing (..)
 import Ports
 import Query
 import Uplink
@@ -177,7 +176,8 @@ viewMain model =
         addQuery =
             button [ onClick Insert ] [ text "Add query" ]
     in
-        div [] ([serverBlock] ++ queryBlocks ++ [addQuery])
+        div [] ([serverBlock] ++ queryBlocks ++ [addQuery] 
+            ++ [span [] [text "Example: select ST_AsGeoJson(ST_MakePoint(174.5, -41.5))::json"]]) 
   
   
 view : Model -> Html Msg
