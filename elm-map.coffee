@@ -30,11 +30,25 @@ initMap = ->
         map.addLayer
             "id": "polygons"
             "type": "fill"
+            "filter": ["in", "$type", "Polygon"]
             "source": "queryResults"
             "layout": {}
             "paint": 
-                "fill-color": "#088"
-                "fill-opacity": 0.8
+                "fill-color": "#0000ff"
+                "fill-opacity": 0.3
+                "fill-outline-color": "#0000aa"
+                "fill-antialias": true
+
+        map.addLayer
+            "id": "lines"
+            "type": "line"
+            "filter": ["in", "$type", "LineString"]
+            "source": "queryResults"
+            "layout": {}
+            "paint": 
+                "line-color": "#0000aa"
+                "line-opacity": 1.0
+                "line-width": 2
                 
         mapIsReady = true
         console.log "Map is ready"
@@ -48,17 +62,3 @@ elmApp.ports.mapData.subscribe (model) ->
         map.getSource("queryResults").setData model["0"]
         console.log "Setting centre to", model["0"].features[0].geometry.coordinates
         map.setCenter model["0"].features[0].geometry.coordinates 
-
-    # if mapIsReady
-    #     features = R.map (o) ->
-    #         type: o.type_
-    #         geometry:
-    #             type: o.geometry.type_
-    #             coordinates: o.geometry.coordinates
-    #         properties:
-    #             title: o.properties.title
-    #             "marker-symbol": o.properties.markerSymbol
-    #     , model.markers
-    #     map.getSource("markers").setData {type: "FeatureCollection", features: features}
-    #
-    #
