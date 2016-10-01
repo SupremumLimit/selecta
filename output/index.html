@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Selecta</title>
+    <script type="text/javascript" src="elm.js"></script>
+
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.21.0/ramda.min.js"></script>
+
+    <style>
+        body { margin: 0; padding: 0; box-sizing: border-box; }
+        #controls { position: absolute; top: 0; bottom: 0; left: 0; width: 50%; 
+                    border-right: 1px solid #e0e0e0; box-sizing: border-box;
+                    overflow: scroll; }
+        #map { position: absolute; top: 0; bottom: 0; right: 0; width: 50%; }
+        .queryContainer { border-bottom: 1px solid #e0e0e0; padding-bottom: 1em; }
+        button { padding: 1em; margin: 0.5em; border-radius: 5px; }
+        .query { box-sizing: border-box; }
+        .query textarea { width: calc(100% - 1em); height: 6em; border: 1px solid #c0c0c0;
+                          border-radius: 3px; margin: 0.5em; box-sizing: border-box; }
+        .login input { display: block; padding: 0.5em; border: 1px solid #ccc; border-radius: 2px;
+             width: 80%; margin: 1em; box-sizing: border-box; }
+    </style>
+        
+</head>
+
+<body>
+    <div id="controls"></div>
+    <div id="map"></div>
+</body>
+<script>
+     elmApp = Elm.Main.embed(document.getElementById("controls")); 
+</script>
+<script type="text/javascript" src="elm-map.js"></script>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "selecta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "elm.js",
+  "dependencies": {
+    "json-server": "^0.8.8"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "coffee-script": "1.10.0"
+  },
+  "scripts": {
+      "elm-compile": "elm make Main.elm --output output/elm.js",
+      "elm-install": "elm package install",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "watch-coffee": "coffee -cw -o output .",
+      "watch-elm": "chokidar '*.elm' -c 'elm make Main.elm --output output/elm.js'",
+      "watch": "npm run watch-coffee & npm run watch-elm"
+  },
+  "author": "",
+  "license": "ISC"
+}
