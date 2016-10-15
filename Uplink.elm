@@ -10,13 +10,17 @@ post : Json.Decoder value -> ServerUrl -> SessionId -> String -> Http.Body -> Ta
 post decoder serverUrl sessionId path body =
     let request =
         { verb = "POST"
-        , headers = [ ("Origin", "http://localhost")
-                    , ("Access-Control-Request-Method", "POST")
-                    , ("Access-Control-Request-Headers", "Content-Type,Origin,SessionID")
-                    , ("Content-Type", "application/json")
+        , headers = [ ("Content-Type", "application/json")
+                    , ("X-SF-Token", "***REMOVED***")
                     , ("SessionID", Maybe.withDefault "" sessionId)  ]
         , url = serverUrl ++ "/" ++ path
         , body = body
         }
     in
         fromJson decoder (send defaultSettings request)
+        
+        
+-- ("Origin", "http://localhost")
+--                     , ("Access-Control-Request-Method", "POST")
+--                     , ("Access-Control-Request-Headers", "Content-Type,Origin,SessionID")
+--                     ,
