@@ -19,8 +19,3 @@ post decoder serverUrl sessionId path body =
     in
         fromJson decoder (send defaultSettings request)
         
-        
--- ("Origin", "http://localhost")
---                     , ("Access-Control-Request-Method", "POST")
---                     , ("Access-Control-Request-Headers", "Content-Type,Origin,SessionID")
---                     ,

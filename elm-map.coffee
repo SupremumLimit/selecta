@@ -55,10 +55,28 @@ initMap = ->
 
 initMap()
 
-elmApp.ports.mapData.subscribe (model) ->
+elmApp.ports.mapData.subscribe (m) ->
+    window.model = m
     console.log "mapData model: ", model
     if mapIsReady 
-        console.log "Setting data to", model["0"]
-        map.getSource("queryResults").setData model["0"]
-        console.log "Setting centre to", model["0"].features[0].geometry.coordinates
-        map.setCenter model["0"].features[0].geometry.coordinates 
+        try 
+            console.log "Setting data to", model["0"]
+            map.getSource("queryResults").setData model["0"]
+            console.log "Setting centre to", model["0"].features[0].geometry.coordinates
+            map.setCenter model["0"].features[0].geometry.coordinates 
+            
+        catch e 
+            console.log "Exception: ", e
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

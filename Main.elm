@@ -1,3 +1,4 @@
+import Color exposing (..)
 import Html exposing (..)
 import Html.App as App
 import Html.Attributes exposing (..)
@@ -39,7 +40,7 @@ init =
    ({ currentResultSet = []
     , password = "***REMOVED***"
     , queries = [] 
-    , serverUrl = "http://localhost:3000/v4" -- "https://csl-safesitenode-staging.herokuapp.com" 
+    , serverUrl = "***REMOVED***" 
     , sessionId = Nothing
     , uid = 0
     , username = "***REMOVED***"
@@ -74,10 +75,12 @@ updateIndexedQueries qid qmsg =
 decodeSessionId : Json.Decoder String
 decodeSessionId = Json.at ["sessionId"] Json.string
 
--- TODO: decide on format for results - all of them have to be displayable on the map
 decodeQueryResults : Decoder QueryResultSet
 decodeQueryResults = Json.keyValuePairs GeoJson.decoder
 
+toJson : QueryResultSet -> JsonEncode.Value
+toJson queryResultSet = 
+    queryResultSet |> List.map (\q -> (fst q, GeoJson.encode (snd q))) |> JsonEncode.object
 
 -- {"0":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":[{"type":"Polygon","coordinates":[[[174.748699375402,-41.260793543852]
 
@@ -96,7 +99,8 @@ execQueries serverUrl sessionId queries =
         Nothing ->
             Cmd.none
         Just s ->
-            let body = queries |> List.map (\q -> (toString q.id, JsonEncode.string q.model.sql)) 
+            let body = queries 
+                        |> List.map (\q -> (toString q.id, JsonEncode.string q.model.sql)) 
                         |> JsonEncode.object |> JsonEncode.encode 0 |> Http.string
             in 
                 Task.perform QueriesFail QueriesSucceed 
@@ -105,10 +109,22 @@ execQueries serverUrl sessionId queries =
  
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
+    let colorFromIndex i =
+        case i % 7 of 
+            0 -> orange
+            1 -> blue 
+            2 -> green
+            3 -> darkRed
+            4 -> purple
+            5 -> darkYellow
+            6 -> grey
+            _ -> yellow
+    in 
     case msg of
         Insert -> 
             ({ model
-                | queries = model.queries ++ [ IndexedQuery model.uid (Query.init) ]  
+                | queries = model.queries ++ 
+                    [ IndexedQuery model.uid (Query.init (colorFromIndex model.uid)) ]  
                 , uid = model.uid + 1
             }, Cmd.none)
 
@@ -130,9 +146,7 @@ update msg model =
             ({model | currentResultSet = Debug.log "Fail" model.currentResultSet}, Cmd.none)
             
         QueriesSucceed queryResultSet -> 
-            ({model | currentResultSet = queryResultSet}, 
-                queryResultSet |> List.map (\q -> (fst q, GeoJson.encode (snd q))) 
-                    |> JsonEncode.object |> Ports.mapData)
+            ({model | currentResultSet = queryResultSet}, queryResultSet |> toJson |> Ports.mapData)
         
         SetPassword password ->
             ({ model | password = password }, Cmd.none)
