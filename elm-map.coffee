@@ -1,4 +1,4 @@
-mapboxgl.accessToken = '***REMOVED***'
+mapboxgl.accessToken = 'access_token'
 
 window.map = undefined 
 mapIsReady = false

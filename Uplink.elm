@@ -11,7 +11,7 @@ post decoder serverUrl sessionId path body =
     let request =
         { verb = "POST"
         , headers = [ ("Content-Type", "application/json")
-                    , ("X-SF-Token", "***REMOVED***")
+                    , ("X-SF-Token", "x_sf_token")
                     , ("SessionID", Maybe.withDefault "" sessionId)  ]
         , url = serverUrl ++ "/" ++ path
         , body = body

@@ -38,12 +38,12 @@ type alias QueryResultSet = List (String, GeoJson) -- (List (String, List (Strin
 init : (Model, Cmd Msg)
 init =
    ({ currentResultSet = []
-    , password = "***REMOVED***"
+    , password = ""
     , queries = [] 
-    , serverUrl = "***REMOVED***" 
+    , serverUrl = "example.com" 
     , sessionId = Nothing
     , uid = 0
-    , username = "***REMOVED***"
+    , username = "abc@example.com"
     }, Cmd.none)
 
 
